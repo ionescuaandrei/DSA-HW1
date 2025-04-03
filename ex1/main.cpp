@@ -1,3 +1,10 @@
-//
-// Created by stefa on 04/04/2025.
-//
+#include <iostream>
+
+using namespace std;
+
+int main() {
+
+    cout << "test";
+
+    return 0;
+}
