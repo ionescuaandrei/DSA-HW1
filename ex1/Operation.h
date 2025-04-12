@@ -4,7 +4,7 @@
 #define OPERATION_H
 
 struct Operation {
-    bool type;  // 0 for DELETE, 1 for INSERT
+    int type;  // 0 for DELETE, 1 for INSERT
     int position;
     std::string text ;
 };
