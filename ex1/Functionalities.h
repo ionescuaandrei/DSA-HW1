@@ -29,49 +29,58 @@ public:
         return -1;
     }
 
+    string checkDeleteText(Operation op) {
+        for (int i=0;i<op.text.length();++i) {
+            if ((int)op.text[i] <48 || (int)op.text[i]>57) {return "WORDS";}
+        }
+        return "DIGITS";
+    }
+
 
     void insert_(string &s, Operation op, Stack<Operation> &undoStack) {
         s.insert(op.position, op.text);
         undoStack.push(op);
     }
     void delete_ (string &s, Operation op, Stack<Operation> &undoStack) {
-        if (isCharRemoved(op.text)) {  // verify if the op.text is a number/digit
-            string temporary;
-            for (int i=op.position; i<op.position+atoi(op.text.c_str());++i) {
-               temporary += s[i];  // putting in a variable the string that is to be deleted (for undostack)
-            }
+
+        if (checkDeleteText(op) == "DIGITS") {
+
+            Operation temporary;
+            for (int i=op.position;i<atoi(op.text.c_str())+op.position;++i) temporary.text = temporary.text + s[i];
             s.erase(op.position, atoi(op.text.c_str()));
-            op.text = temporary;
+            op.text = temporary.text;
             undoStack.push(op);
         }
-        else cout << "Usage: OPERATION INDEX NUMBER_OF_CHARS" << endl;
+        else {
+            s.erase(op.position, op.text.length());
+            undoStack.push(op);
+        }
     }
 
     void undo(string &s, Stack<Operation> &undoStack, Stack<Operation> &redoStack) {
-        Operation temporary = undoStack.peek();
-        if (temporary.type == 1) {
-            itoa(temporary.text.length(), temporary.text.data(), 10);
-             delete_(s, temporary, undoStack);
+        Operation top = undoStack.peek();
+        if (top.type == 1) {
+            delete_(s, top, redoStack);
+            undoStack.pop();
         }
-        else if (temporary.type == 0){
-            insert_(s, temporary, undoStack);
+        else if (top.type == 0) {
+            insert_(s, top, redoStack);
+            undoStack.pop();
         }
-        redoStack.push(temporary);
-        undoStack.pop();
+        else cout << "ERORR - UNDO IS NOT ON TYPE 1 OR 2 / THE STACK IS EMPTY";
     }
 
     void redo( string &s, Stack<Operation> &undoStack, Stack<Operation> &redoStack) {
-        Operation temporary = redoStack.peek();
-
-        if (temporary.type == 1) {
-                   insert_(s, temporary, undoStack);
+        Operation top = redoStack.peek();
+        if (top.type == 1) {
+            insert_(s, top, undoStack);
+            redoStack.pop();
         }
-        else if (temporary.type == 0) {
-            temporary.text = itoa(temporary.text.length(), temporary.text.data(), 10);
-            delete_(s, temporary, undoStack);
+        else if (top.type == 0) {
+            delete_(s, top, undoStack);
+            redoStack.pop();
         }
-        undoStack.push(temporary);
-        redoStack.pop();
+        else cout << "ERROR - REDO IS NOT ON TYPE 1 OR 2 // THE STACK IS EMPTY";
     }
 
 

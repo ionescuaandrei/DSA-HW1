@@ -58,6 +58,8 @@ int main() {
 
     while (true) {
 
+    //   if (!undoStack.isEmpty()) cout << "UNDOSTACK: "<< undoStack.peek().type << " " << undoStack.peek().position << " " << undoStack.peek().text << endl;
+     //   if (!redoStack.isEmpty())   cout << "REDOSTACK: " << redoStack.peek().type << " " << redoStack.peek().position << " " << redoStack.peek().text << endl;
         getline(cin, query);
         if (query == "exit") return 0;
        if ( tokenize_string(query, test)  == -1 ) {
@@ -67,10 +69,12 @@ int main() {
         if (tokenize_string(query, test) == -2) {
             if (test.type == 3) {
                functionality.undo(s, undoStack, redoStack);
+             //   cout <<"DID UNDO";
                 cout << s << endl;
             }
             else if (test.type == 4) {
-                functionality.redo(s, undoStack, redoStack);
+               functionality.redo(s, undoStack, redoStack);
+              //  cout << "DID REDO";
                 cout << s << endl;
             }
             else {
