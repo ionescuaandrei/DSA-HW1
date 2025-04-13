@@ -1,4 +1,4 @@
-# Data Structures and Algorithms - Homework 1
+# Data Structures and Algorithms - BigHW 1
 ## Stacks, Queues & Lists Implementation
 
 This repository contains solutions for the Data Structures and Algorithms Homework 1, focusing on the implementation and application of stacks, queues, and lists.
