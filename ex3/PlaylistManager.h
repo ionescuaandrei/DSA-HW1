@@ -127,10 +127,6 @@ void PlaylistManager::removeSong(Song& song, ostream& output) {
     }
 
     output << "Removed: " << song.name << endl;
-    
-    // Implementation for removal (simplified):
-    // For a proper implementation, we would need to modify the Queue class
-    // to support find and remove operations
 }
 
 void PlaylistManager::show(ostream& output) {
